@@ -1,22 +1,40 @@
-import { Search, ChevronRight } from 'lucide-react';
+import { Search, ChevronRight, Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { fetchProducts } from '../firebase';
+import { useWishlist } from '../context/WishlistContext';
 import './Home.css';
 
 const Home = () => {
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadProducts = async () => {
       const data = await fetchProducts();
       setProducts(data);
+      setFilteredProducts(data);
       setLoading(false);
     };
     loadProducts();
   }, []);
+
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    if (query === '') {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(products.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.category.toLowerCase().includes(query)
+      ));
+    }
+  };
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -52,6 +70,20 @@ const Home = () => {
             <button>Share Word</button>
             <button>Save</button>
           </div>
+        </div>
+      </section>
+
+      {/* Search Bar */}
+      <section className="search-section">
+        <div className="search-container">
+          <Search size={20} className="search-icon" />
+          <input 
+            type="text" 
+            placeholder="Search Bibles, frames, accessories..." 
+            value={searchQuery}
+            onChange={handleSearch}
+            className="search-input"
+          />
         </div>
       </section>
 
@@ -92,10 +124,20 @@ const Home = () => {
             <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>
               Loading divine artifacts...
             </div>
+          ) : filteredProducts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)', width: '100%' }}>
+              No products found matching "{searchQuery}"
+            </div>
           ) : (
-            products.map((product) => (
+            filteredProducts.map((product) => (
               <div className="product-card" key={product.id}>
                 {product.badge && <div className="product-badge">{product.badge}</div>}
+                <button 
+                  className={`wishlist-toggle ${isInWishlist(product.id) ? 'active' : ''}`}
+                  onClick={() => toggleWishlist(product)}
+                >
+                  <Heart size={18} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
+                </button>
                 <img src={product.imageUrl} alt={product.name} />
                 <div className="product-info">
                   <span className="product-category">{product.category}</span>

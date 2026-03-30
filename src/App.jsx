@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
+import Wishlist from './pages/Wishlist';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="order-confirmation/:orderId" element={<OrderConfirmation />} />
+          <Route path="wishlist" element={<Wishlist />} />
         </Route>
       </Routes>
     </Router>

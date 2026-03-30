@@ -1,9 +1,11 @@
 import { User, MapPin, Edit3, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
 const Profile = () => {
   const { currentUser, logout, loading } = useAuth();
+  const navigate = useNavigate();
 
   if (loading || !currentUser) return <div className="page-container fade-in">Loading...</div>;
 
@@ -80,7 +82,7 @@ const Profile = () => {
             <span>Order History</span>
             <ChevronRight size={20} className="chevron" />
           </button>
-          <button className="menu-item">
+          <button className="menu-item" onClick={() => navigate('/wishlist')}>
             <div className="menu-icon alert"><Heart size={20} /></div>
             <span>My Wishlist</span>
             <ChevronRight size={20} className="chevron" />
