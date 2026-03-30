@@ -1,0 +1,75 @@
+.confirmation-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 150px);
+  padding: 20px;
+}
+
+.confirmation-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  max-width: 400px;
+  width: 100%;
+}
+
+.success-icon {
+  color: var(--success);
+  margin-bottom: 20px;
+}
+
+.confirmation-card h2 {
+  font-family: serif;
+  font-size: 1.8rem;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.blessing-text {
+  font-family: serif;
+  font-style: italic;
+  color: var(--primary);
+  margin-bottom: 25px;
+}
+
+.order-details-box {
+  background: var(--background);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.order-details-box p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.order-id {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(0,0,0,0.1);
+}
+
+.order-id span {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.order-id strong {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.confirmation-card .btn-primary {
+  width: 100%;
+}

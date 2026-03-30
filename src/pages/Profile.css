@@ -1,0 +1,255 @@
+.profile-page {
+  padding: 20px;
+  background-color: var(--background);
+}
+
+.profile-header {
+  position: relative;
+  background-color: var(--secondary-dark);
+  border-radius: 20px;
+  padding: 30px 20px;
+  margin-bottom: 25px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.profile-header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(255,255,255,0.4), transparent);
+}
+
+.profile-greeting {
+  position: relative;
+  z-index: 2;
+}
+
+.profile-greeting h2 {
+  font-size: 1.2rem;
+  color: var(--text-main);
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.profile-greeting h1 {
+  font-size: 1.8rem;
+  font-family: serif;
+  color: var(--text-main);
+  margin-bottom: 15px;
+}
+
+.blessing {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: serif;
+  opacity: 0.8;
+}
+
+.profile-section {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  font-family: serif;
+}
+
+.icon-circle {
+  width: 32px;
+  height: 32px;
+  background: var(--background);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.detail-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.detail-item.borderless {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.detail-item .label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.detail-item p {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  font-family: monospace;
+}
+
+.edit-profile-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--background);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+}
+
+.save-address-btn {
+  width: 100%;
+  margin-top: 10px;
+  background-color: var(--secondary-dark);
+}
+
+.member-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.avatar {
+  font-size: 3rem;
+  width: 70px;
+  height: 70px;
+  background: var(--text-main);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.member-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.member-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.action-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  padding: 18px 20px;
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.menu-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-right: 15px;
+}
+
+.menu-item span {
+  flex: 1;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.chevron {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.menu-icon.alert {
+  color: var(--danger);
+}
+
+.menu-icon.danger {
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--danger);
+}
+
+.danger-text {
+  color: var(--danger);
+}
+
+.support-section {
+  background: var(--secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.support-section h4 {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+.support-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+}

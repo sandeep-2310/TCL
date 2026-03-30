@@ -1,0 +1,42 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.header-title {
+  text-align: center;
+}
+
+.header-title h1, .header-title h2 {
+  font-family: serif;
+  color: #C14A2E; /* A subtle brownish/red as in the mockups */
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+.header-title h1 {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.header-title h2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.menu-btn, .theme-btn {
+  color: #C14A2E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
