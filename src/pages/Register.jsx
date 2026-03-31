@@ -6,7 +6,7 @@ import './Login.css';
 import './Register.css';
 
 const Register = () => {
-  const [formData, setFormData] = useState({ fullName: '', email: '', password: '', confirmPassword: '' });
+  const [formData, setFormData] = useState({ fullName: '', email: '', phone: '', password: '', confirmPassword: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,10 +28,15 @@ const Register = () => {
     if (formData.password.length < 6) {
       return setError('Password must be at least 6 characters.');
     }
+    
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      return setError('Please enter a valid 10-digit Indian mobile number.');
+    }
 
     setLoading(true);
     try {
-      await registerWithEmail(formData.email, formData.password, formData.fullName);
+      await registerWithEmail(formData.email, formData.password, formData.fullName, formData.phone);
       navigate('/profile');
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
@@ -102,6 +107,20 @@ const Register = () => {
               onChange={handleChange}
               required
               autoComplete="email"
+            />
+          </div>
+
+          <div className="input-group">
+            <div className="input-icon">📞</div>
+            <input
+              id="register-phone"
+              type="tel"
+              name="phone"
+              placeholder="10-digit mobile number"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              autoComplete="tel"
             />
           </div>
 

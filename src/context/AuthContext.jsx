@@ -1,5 +1,11 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { 
+  doc, 
+  getDoc, 
+  setDoc, 
+  onSnapshot 
+} from 'firebase/firestore';
 import {
   onAuthStateChanged,
   signInAnonymously,
@@ -23,16 +29,38 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setCurrentUser({
-          uid: user.uid,
-          fullName: user.displayName || 'Guest Believer',
-          email: user.email || 'guest@teluguchristian.app',
-          phone: user.phoneNumber || '',
-          joined: new Date(user.metadata.creationTime).getFullYear().toString(),
-          isAnonymous: user.isAnonymous,
-          photoURL: user.photoURL || null,
-          addresses: []
+        // Listen for real-time changes to the user document in Firestore
+        const userRef = doc(db, 'users', user.uid);
+        const unsubscribeDoc = onSnapshot(userRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setCurrentUser({
+              uid: user.uid,
+              fullName: userData.name || user.displayName || 'Guest Believer',
+              email: user.email || 'guest@teluguchristian.app',
+              phone: userData.phone || '',
+              joined: userData.created_at ? new Date(userData.created_at).getFullYear().toString() : new Date().getFullYear().toString(),
+              isAnonymous: user.isAnonymous,
+              photoURL: user.photoURL || null,
+              addresses: userData.addresses || []
+            });
+          } else {
+            // Document doesn't exist yet (e.g. first time login via Google)
+            setCurrentUser({
+              uid: user.uid,
+              fullName: user.displayName || 'Guest Believer',
+              email: user.email || 'guest@teluguchristian.app',
+              phone: user.phoneNumber || '',
+              joined: new Date(user.metadata.creationTime).getFullYear().toString(),
+              isAnonymous: user.isAnonymous,
+              photoURL: user.photoURL || null,
+              addresses: []
+            });
+          }
+          setLoading(false);
         });
+
+        return () => unsubscribeDoc();
       } else {
         // No user — sign in anonymously (guest mode)
         try {
@@ -64,12 +92,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Email / Password Registration
-  const registerWithEmail = async (email, password, fullName) => {
+  const registerWithEmail = async (email, password, fullName, phone) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    // Save display name to the Firebase user profile
-    await updateProfile(result.user, { displayName: fullName });
-    // Force update local state with the new display name
-    setCurrentUser(prev => ({ ...prev, fullName }));
+    const user = result.user;
+
+    // 1. Save display name to the Firebase user profile
+    await updateProfile(user, { displayName: fullName });
+
+    // 2. Create the user document in Firestore 'users' collection
+    await setDoc(doc(db, 'users', user.uid), {
+      user_id: user.uid,
+      name: fullName,
+      email: email,
+      phone: phone || '',
+      address: '',
+      addresses: [],
+      created_at: new Date().toISOString()
+    });
+
     return result;
   };
 

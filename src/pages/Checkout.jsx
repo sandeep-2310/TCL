@@ -77,6 +77,16 @@ const Checkout = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleCheckout = async (e) => {
     e.preventDefault();
     
@@ -88,29 +98,100 @@ const Checkout = () => {
     setIsProcessing(true);
 
     try {
+      const totalAmount = getCartTotal();
       const fullAddress = `${formData.house}, ${formData.street}, ${formData.city} - ${formData.pincode}`;
       
       const orderData = {
         userId: currentUser?.uid || 'guest',
-        items: cartItems,
-        totalAmount: getCartTotal(),
-        shippingInfo: {
-          ...formData,
-          fullAddress
-        },
-        paymentMethod,
-        status: 'PENDING'
+        customer_name: formData.name,
+        phone: formData.phone,
+        address: fullAddress,
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity || 1
+        })),
+        total_price: totalAmount,
+        payment_method: paymentMethod,
+        order_status: 'PENDING',
+        payment_status: 'PENDING'
       };
 
-      const result = await createOrder(orderData);
-      
-      if (result.success) {
-        clearCart();
-        navigate(`/order-confirmation/${result.orderId}`);
+      if (paymentMethod === 'COD') {
+        // Direct order creation for Cash on Delivery
+        const result = await createOrder({ ...orderData, payment_status: 'UNPAID' });
+        if (result.success) {
+          clearCart();
+          navigate(`/order-confirmation/${result.orderId}`);
+        }
+      } else {
+        // Razorpay Payment Flow
+        const resScript = await loadRazorpay();
+        if (!resScript) {
+          alert("Razorpay SDK failed to load. Are you online?");
+          return;
+        }
+
+        // 1. Create Razorpay Order on Backend
+        const orderResponse = await fetch('/api/payment/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: totalAmount })
+        });
+        const razorpayOrder = await orderResponse.json();
+
+        if (!razorpayOrder || !razorpayOrder.id) {
+          throw new Error("Failed to create Razorpay order");
+        }
+
+        // 2. Open Razorpay Modal
+        const options = {
+          key: "rzp_test_YourKeyHere", // Replace with your Public Key ID
+          amount: razorpayOrder.amount,
+          currency: razorpayOrder.currency,
+          name: "Telugu Christian Literature",
+          description: "Purchase Sacred Artifacts",
+          order_id: razorpayOrder.id,
+          handler: async (response) => {
+            try {
+              // 3. Verify Payment on Backend
+              const verifyRes = await fetch('/api/payment/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  orderData: { ...orderData, payment_method: 'RAZORPAY' }
+                })
+              });
+              const verifyData = await verifyRes.json();
+              
+              if (verifyData.success) {
+                clearCart();
+                navigate(`/order-confirmation/${verifyData.orderId}`);
+              } else {
+                alert("Payment verification failed. Please contact support.");
+              }
+            } catch (err) {
+              console.error("Verification failed", err);
+              alert("Wait! Your payment was successful but we couldn't verify it. Our team will contact you.");
+            }
+          },
+          prefill: {
+            name: formData.name,
+            contact: formData.phone
+          },
+          theme: { color: "#D4AF37" }
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
       }
     } catch (error) {
       console.error("Order failed", error);
-      alert("Failed to process order. Please try again.");
+      alert("Something went wrong during checkout. Please try again.");
     } finally {
       setIsProcessing(false);
     }
