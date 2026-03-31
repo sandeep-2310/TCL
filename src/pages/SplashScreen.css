@@ -1,0 +1,129 @@
+/* ── Splash Screen ── */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(160deg, #0d1b2e 0%, #1a3a4a 50%, #0d2233 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  transition: opacity 0.7s ease;
+}
+
+.splash-enter { opacity: 0; }
+.splash-hold  { opacity: 1; }
+.splash-exit  { opacity: 0; pointer-events: none; }
+
+/* ── Radial glow in the centre ── */
+.splash-glow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 70%);
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.6; }
+  50%       { transform: scale(1.15); opacity: 1;   }
+}
+
+/* ── Cross watermark ── */
+.splash-cross {
+  position: absolute;
+  font-size: 420px;
+  color: rgba(255,255,255,0.03);
+  font-family: serif;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Logo wrapper ── */
+.splash-logo-wrap {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              opacity  0.7s ease;
+}
+
+.splash-logo-enter { transform: scale(0.5); opacity: 0; }
+.splash-logo-hold  { transform: scale(1);   opacity: 1; }
+.splash-logo-exit  { transform: scale(1.05); opacity: 0; }
+
+.splash-logo-img {
+  width: 230px;
+  height: 230px;
+  object-fit: contain;
+  /* Drop shadow to make logo "float" */
+  filter: drop-shadow(0 0 40px rgba(212,175,55,0.4))
+          drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+  border-radius: 50%;
+}
+
+/* ── App name tagline ── */
+.splash-tagline {
+  text-align: center;
+  z-index: 2;
+  transition: transform 0.8s ease 0.2s, opacity 0.8s ease 0.2s;
+}
+
+.splash-tagline-enter { transform: translateY(30px); opacity: 0; }
+.splash-tagline-hold  { transform: translateY(0);    opacity: 1; }
+.splash-tagline-exit  { transform: translateY(-10px); opacity: 0; }
+
+.splash-tagline h1 {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.splash-tagline h2 {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #D4AF37; /* Gold */
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.splash-tagline p {
+  font-family: serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ── Loading dots ── */
+.splash-dots {
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+  transition: opacity 0.5s ease 0.4s;
+}
+
+.splash-dots-enter { opacity: 0; }
+.splash-dots-hold  { opacity: 1; }
+.splash-dots-exit  { opacity: 0; }
+
+.splash-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #D4AF37;
+  animation: dot-bounce 1.2s ease-in-out infinite;
+}
+
+.splash-dots span:nth-child(2) { animation-delay: 0.2s; }
+.splash-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1;   }
+}
