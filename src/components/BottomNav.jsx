@@ -13,11 +13,10 @@ const BottomNav = () => {
         <BookOpen size={22} />
         <span>Books</span>
       </NavLink>
-      <div className="nav-item">
-        {/* Placeholder for verse of the day or similar modal/route */}
+      <NavLink to="/wishlist" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}>
         <BookHeart size={22} />
-        <span>Verse</span>
-      </div>
+        <span>Saved</span>
+      </NavLink>
       <NavLink to="/cart" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}>
         <ShoppingCart size={22} />
         <span>Cart</span>
