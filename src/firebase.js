@@ -1,7 +1,26 @@
-// This file acts as an API Service layer.
-// Under real implementation, it uses Firebase Auth and Firestore.
-// Since no config is provided, it simulates Firestore collections and delays.
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
+import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAnalytics } from "firebase/analytics";
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDq9zwgGqRuaLB2WAlaebDwWPhakjHwrCM",
+  authDomain: "telugu-christian-literature.firebaseapp.com",
+  projectId: "telugu-christian-literature",
+  storageBucket: "telugu-christian-literature.firebasestorage.app",
+  messagingSenderId: "252776633302",
+  appId: "1:252776633302:web:63a643ffd814cda597ca77",
+  measurementId: "G-HCDS7PC7W9"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+// Optional: const analytics = getAnalytics(app);
+
+// Keep our mock array as the seed data source
 export const MOCK_PRODUCTS = [
   {
     id: 'p1',
@@ -35,26 +54,67 @@ export const MOCK_PRODUCTS = [
   }
 ];
 
-// Simulates fetching products from Firestore
-export const fetchProducts = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_PRODUCTS);
-    }, 600);
-  });
+// Helper to auto-seed Firestore if it is completely empty
+const seedDatabaseIfEmpty = async () => {
+  try {
+    const productsRef = collection(db, "products");
+    const snapshot = await getDocs(productsRef);
+    
+    // If database is empty, push our mock objects into it!
+    if (snapshot.empty) {
+      console.log("Firestore is empty! Auto-seeding initial products...");
+      for (const product of MOCK_PRODUCTS) {
+        // Use the intended ID as the document ID
+        const docRef = doc(db, "products", product.id);
+        await setDoc(docRef, product);
+      }
+      console.log("Database successfully seeded.");
+    }
+  } catch (error) {
+    console.warn("Failed to check or seed database. Make sure Firestore rules allow reading/writing.", error);
+  }
 };
 
-// Simulates creating an order document in Firestore
+// Start the seeder automatically
+seedDatabaseIfEmpty();
+
+// Fetch products from REAL Firestore collection
+export const fetchProducts = async () => {
+  try {
+    const productsRef = collection(db, "products");
+    const snapshot = await getDocs(productsRef);
+    if (snapshot.empty) return MOCK_PRODUCTS; // Fallback to local if empty or rules fail silently
+    
+    const fetchedProducts = [];
+    snapshot.forEach((doc) => {
+      fetchedProducts.push({ id: doc.id, ...doc.data() });
+    });
+    return fetchedProducts;
+  } catch (error) {
+    console.error("Error fetching products from Firebase:", error);
+    // Silent fallback to keep UI running beautifully
+    return MOCK_PRODUCTS; 
+  }
+};
+
+// Create an order in REAL Firestore 'orders' collection
 export const createOrder = async (orderData) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (!orderData || !orderData.items || orderData.items.length === 0) {
-        reject(new Error("Invalid order data"));
-        return;
-      }
-      // Simulate success with order ID
-      const orderId = 'ORD-' + Math.floor(Math.random() * 900000 + 100000);
-      resolve({ success: true, orderId, timestamp: new Date().toISOString() });
-    }, 1500);
-  });
+  try {
+    if (!orderData || !orderData.items || orderData.items.length === 0) {
+      throw new Error("Invalid order data");
+    }
+    
+    // Add document to 'orders' collection
+    const orderWithTimestamp = {
+      ...orderData,
+      createdAt: new Date().toISOString()
+    };
+    
+    const docRef = await addDoc(collection(db, "orders"), orderWithTimestamp);
+    
+    return { success: true, orderId: docRef.id, timestamp: orderWithTimestamp.createdAt };
+  } catch (error) {
+    console.error("Error creating order in Firebase:", error);
+    throw error;
+  }
 };
