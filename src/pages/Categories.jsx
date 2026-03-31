@@ -1,39 +1,43 @@
+import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import './Categories.css';
 
 const Categories = () => {
+  const navigate = useNavigate();
   const categories = [
     {
       id: 1,
       name: 'Holy Bibles',
-      count: '12 Items',
+      key: 'LITERATURE',
+      count: 'Direct from Google Cloud',
       image: 'https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=200'
     },
     {
       id: 2,
       name: 'Sacred Frames',
-      count: '24 Items',
+      key: 'FRAMES',
+      count: 'Direct from Google Cloud',
       image: 'https://images.unsplash.com/photo-1582845607310-7aa843fa10ee?auto=format&fit=crop&q=80&w=200'
     },
     {
       id: 3,
-      name: 'Holy Keychains',
-      count: '8 Items',
+      name: 'Holy Accessories',
+      key: 'ACCESSORIES',
+      count: 'Direct from Google Cloud',
       image: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=200'
     },
     {
       id: 4,
       name: 'Christmas Joy',
-      count: '32 Items',
+      key: 'CHRISTMAS',
+      count: 'Special Season',
       image: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=200'
-    },
-    {
-      id: 5,
-      name: 'Prayer Books',
-      count: '15 Items',
-      image: 'https://images.unsplash.com/photo-1507434965515-61970f2bd7c6?auto=format&fit=crop&q=80&w=200'
     }
   ];
+
+  const handleCategoryClick = (key) => {
+    navigate(`/?category=${key}`);
+  };
 
   return (
     <div className="categories-page page-container fade-in">
@@ -42,7 +46,11 @@ const Categories = () => {
       
       <div className="categories-list">
         {categories.map((cat) => (
-          <div className="category-list-item" key={cat.id}>
+          <div 
+            className="category-list-item" 
+            key={cat.id} 
+            onClick={() => handleCategoryClick(cat.key)}
+          >
             <div 
               className="category-img" 
               style={{backgroundImage: `url("${cat.image}")`}}

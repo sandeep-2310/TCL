@@ -395,3 +395,23 @@
 .wishlist-toggle:active {
   transform: scale(0.9);
 }
+
+.clear-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.clear-filter-pill:hover {
+  background-color: var(--text-main);
+}

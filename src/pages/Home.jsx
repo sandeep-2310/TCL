@@ -1,6 +1,6 @@
-import { Search, ChevronRight, Heart } from 'lucide-react';
+import { Search, ChevronRight, Heart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { fetchProducts } from '../firebase';
 import { useWishlist } from '../context/WishlistContext';
@@ -10,30 +10,44 @@ const Home = () => {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const navigate = useNavigate();
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Read category from query params: /?category=LITERATURE
+  const queryParams = new URLSearchParams(location.search);
+  const categoryFilter = queryParams.get('category');
+
   useEffect(() => {
     const loadProducts = async () => {
+      setLoading(true);
       const data = await fetchProducts();
       setProducts(data);
-      setFilteredProducts(data);
+      
+      if (categoryFilter) {
+        setFilteredProducts(data.filter(p => p.category.toUpperCase() === categoryFilter.toUpperCase()));
+      } else {
+        setFilteredProducts(data);
+      }
       setLoading(false);
     };
     loadProducts();
-  }, []);
+  }, [categoryFilter]);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
     if (query === '') {
-      setFilteredProducts(products);
+      setFilteredProducts(categoryFilter 
+        ? products.filter(p => p.category.toUpperCase() === categoryFilter.toUpperCase())
+        : products
+      );
     } else {
       setFilteredProducts(products.filter(p => 
-        p.name.toLowerCase().includes(query) || 
-        p.category.toLowerCase().includes(query)
+        (p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)) &&
+        (!categoryFilter || p.category.toUpperCase() === categoryFilter.toUpperCase())
       ));
     }
   };
@@ -41,6 +55,12 @@ const Home = () => {
   const handleAddToCart = (product) => {
     addToCart(product);
   };
+
+  const clearFilter = () => {
+    setSearchQuery('');
+    navigate('/');
+  };
+
   return (
     <div className="home-page fade-in">
       {/* Banner Section */}
@@ -93,7 +113,9 @@ const Home = () => {
       <section className="categories-section">
         <div className="section-header">
           <h2>Explore Categories</h2>
-          <button className="view-all">View All <ChevronRight size={16} /></button>
+          <button className="view-all" onClick={() => navigate('/categories')}>
+            View All <ChevronRight size={16} />
+          </button>
         </div>
         <div className="categories-grid">
           <div className="category-card" style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=300")'}}>
@@ -118,8 +140,15 @@ const Home = () => {
       {/* Best-Selling */}
       <section className="bestselling-section">
         <div className="section-header center">
-          <h2>Best-Selling Religious Items</h2>
+          <h2>
+            {categoryFilter ? `${categoryFilter.charAt(0) + categoryFilter.slice(1).toLowerCase()} Collection` : 'Best-Selling Religious Items'}
+          </h2>
           <p>Chosen by our community for spiritual growth</p>
+          {categoryFilter && (
+            <button className="clear-filter-pill" onClick={clearFilter}>
+              {categoryFilter} <X size={14} />
+            </button>
+          )}
         </div>
         <div className="product-list">
           {loading ? (
