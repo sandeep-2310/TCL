@@ -1,0 +1,8 @@
+.terms-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 15px;
+  opacity: 0.7;
+  line-height: 1.5;
+}

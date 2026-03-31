@@ -1,6 +1,6 @@
-import { User, MapPin, Edit3, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight } from 'lucide-react';
+import { User, MapPin, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Profile.css';
 
 const Profile = () => {
@@ -8,6 +8,35 @@ const Profile = () => {
   const navigate = useNavigate();
 
   if (loading || !currentUser) return <div className="page-container fade-in">Loading...</div>;
+
+  // Show a "please sign in" card for anonymous (guest) users
+  if (currentUser.isAnonymous) {
+    return (
+      <div className="profile-page fade-in">
+        <div className="profile-header">
+          <div className="profile-header-bg"></div>
+          <div className="profile-greeting">
+            <h2>Peace be with you,</h2>
+            <h1>Visitor</h1>
+            <p className="blessing">"For God so loved the world…" — John 3:16</p>
+          </div>
+        </div>
+        <div className="profile-content">
+          <div className="guest-card">
+            <div className="guest-icon">🙏</div>
+            <h3>Sign in to your account</h3>
+            <p>Create an account or sign in to track your orders, save your wishlist, and manage your details.</p>
+            <Link to="/login" className="btn-primary guest-btn" id="profile-login-btn">
+              <LogIn size={18} /> Sign In
+            </Link>
+            <Link to="/register" className="btn-secondary guest-btn-outline" id="profile-register-btn">
+              Create Account
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page fade-in">
