@@ -31,9 +31,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Expanded mock data with 24 premium items (6 per category)
+// Massive mock data with 40 premium items (10 per category)
 export const MOCK_PRODUCTS = [
-  // HOLY BIBLES (LITERATURE) - 6 Items
+  // HOLY BIBLES (LITERATURE) - 10 Items
   {
     id: 'bible-1',
     name: 'Telugu Study Bible - Premium Leather',
@@ -94,8 +94,48 @@ export const MOCK_PRODUCTS = [
     badge: 'TRAVEL',
     stock: 100
   },
+  {
+    id: 'bible-7',
+    name: 'Telugu Bible Commentary (5 Vol Set)',
+    category: 'LITERATURE',
+    price: 4500,
+    description: 'Comprehensive theological commentary in Telugu for serious students of the Word.',
+    imageUrl: 'https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=400',
+    badge: 'SCHOLARLY',
+    stock: 10
+  },
+  {
+    id: 'bible-8',
+    name: 'Daily Bread - Women\'s Devotional',
+    category: 'LITERATURE',
+    price: 400,
+    description: 'A year of inspirational daily readings for women in fluent Telugu.',
+    imageUrl: 'https://images.unsplash.com/photo-1491841573634-28140fc7ced7?auto=format&fit=crop&q=80&w=400',
+    badge: 'DEVOTIONAL',
+    stock: 65
+  },
+  {
+    id: 'bible-9',
+    name: 'Miniature Bible - Gold Bound',
+    category: 'LITERATURE',
+    price: 550,
+    description: 'Exquisite miniature Telugu Bible with a golden hardback, perfect for gifts.',
+    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
+    badge: 'GIFT',
+    stock: 15
+  },
+  {
+    id: 'bible-10',
+    name: 'The Promised Land - Bible Atlas',
+    category: 'LITERATURE',
+    price: 1100,
+    description: 'Full-color maps and geographical historical context of the Bible in Telugu.',
+    imageUrl: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&q=80&w=400',
+    badge: 'EDUCATIONAL',
+    stock: 22
+  },
 
-  // SACRED FRAMES (FRAMES) - 6 Items
+  // SACRED FRAMES (FRAMES) - 10 Items
   {
     id: 'frame-1',
     name: 'The Last Supper - Golden Carved Frame',
@@ -156,8 +196,48 @@ export const MOCK_PRODUCTS = [
     badge: 'ART',
     stock: 18
   },
+  {
+    id: 'frame-7',
+    name: 'The Beatitudes Scroll Frame',
+    category: 'FRAMES',
+    price: 850,
+    description: 'Rustic wooden frame designed like an ancient scroll, containing the Beatitudes.',
+    imageUrl: 'https://images.unsplash.com/photo-1582845607310-7aa843fa10ee?auto=format&fit=crop&q=80&w=400',
+    badge: 'RUSTIC',
+    stock: 25
+  },
+  {
+    id: 'frame-8',
+    name: 'Eternal Peace - LED Lighted Frame',
+    category: 'FRAMES',
+    price: 2100,
+    description: 'Back-lit LED frame featuring the "Prince of Peace" title in elegant Telugu scripts.',
+    imageUrl: 'https://images.unsplash.com/photo-1584888806282-53bba4b61aa4?auto=format&fit=crop&q=80&w=400',
+    badge: 'TECH',
+    stock: 8
+  },
+  {
+    id: 'frame-9',
+    name: 'Virgin Mary - Padded Velvet Frame',
+    category: 'FRAMES',
+    price: 1350,
+    description: 'Ornate frame with a deep blue velvet padding around an iconic image of Mary.',
+    imageUrl: 'https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=400',
+    badge: 'CLASSIC',
+    stock: 15
+  },
+  {
+    id: 'frame-10',
+    name: 'Armor of God - Metallic Frame',
+    category: 'FRAMES',
+    price: 1650,
+    description: 'Stunning brushed silver-finish frame illustrating the full Armor of God from Ephesians 6.',
+    imageUrl: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=400',
+    badge: 'NEW',
+    stock: 20
+  },
 
-  // HOLY ACCESSORIES (KEYCHAINS) - 6 Items
+  // HOLY ACCESSORIES (KEYCHAINS) - 10 Items
   {
     id: 'key-1',
     name: 'Metallic Cross Keychain - Silver',
@@ -218,8 +298,48 @@ export const MOCK_PRODUCTS = [
     badge: 'UNIQUE',
     stock: 45
   },
+  {
+    id: 'key-7',
+    name: 'Pearlized Cross keychain',
+    category: 'ACCESSORIES',
+    price: 280,
+    description: 'Beautiful pearl-finish cross with a sturdy clasp, ideal for bags or keys.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'ELEGANT',
+    stock: 70
+  },
+  {
+    id: 'key-8',
+    name: 'Guardian Angel Charm Keychain',
+    category: 'ACCESSORIES',
+    price: 190,
+    description: 'Soft-touch metallic angel charm with a small "God is with you" tag.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'POPULAR',
+    stock: 90
+  },
+  {
+    id: 'key-9',
+    name: 'Armor of God Challenge Coin Keychain',
+    category: 'ACCESSORIES',
+    price: 350,
+    description: 'Heavyweight metallic coin featuring the Armor of God on a sturdy keyring.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'PREMIUM',
+    stock: 40
+  },
+  {
+    id: 'key-10',
+    name: 'Ichthys (Fish) Wooden Keychain',
+    category: 'ACCESSORIES',
+    price: 110,
+    description: 'Simple, rustic carved wooden fish keychain, a classic symbol of faith.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'CLASSIC',
+    stock: 150
+  },
 
-  // CHRISTMAS JOY (CHRISTMAS) - 6 Items
+  // CHRISTMAS JOY (CHRISTMAS) - 10 Items
   {
     id: 'xmas-1',
     name: 'Nativity Set - 12 Piece Deluxe',
@@ -279,6 +399,46 @@ export const MOCK_PRODUCTS = [
     imageUrl: 'https://images.unsplash.com/photo-1576692139735-b04e9c73df41?auto=format&fit=crop&q=80&w=400',
     badge: 'FAITH',
     stock: 40
+  },
+  {
+    id: 'xmas-7',
+    name: 'LED Star Tree Topper',
+    category: 'CHRISTMAS',
+    price: 750,
+    description: 'Bright multi-color LED star to represent the Star of Bethlehem atop your tree.',
+    imageUrl: 'https://images.unsplash.com/photo-1512474932049-7826d6909550?auto=format&fit=crop&q=80&w=400',
+    badge: 'NEW',
+    stock: 50
+  },
+  {
+    id: 'xmas-8',
+    name: 'Religious Christmas Greeting Cards (10pk)',
+    category: 'CHRISTMAS',
+    price: 300,
+    description: 'Pack of 10 high-quality cards with religious themes and Bible verses in Telugu.',
+    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
+    badge: 'VALUE',
+    stock: 200
+  },
+  {
+    id: 'xmas-9',
+    name: 'Manger Scene Lantern',
+    category: 'CHRISTMAS',
+    price: 1450,
+    description: 'Beautifully etched metal lantern that casts a shadow of the nativity scene when lit.',
+    imageUrl: 'https://images.unsplash.com/photo-1576692139735-b04e9c73df41?auto=format&fit=crop&q=80&w=400',
+    badge: 'ARTISTIC',
+    stock: 20
+  },
+  {
+    id: 'xmas-10',
+    name: 'Olive Wood Handheld Cross',
+    category: 'CHRISTMAS',
+    price: 480,
+    description: 'Authentic olive wood cross from Bethlehem, designed to fit comfortably in your palm.',
+    imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80&w=400',
+    badge: 'SPECIAL',
+    stock: 100
   }
 ];
 
