@@ -61,6 +61,13 @@ const Home = () => {
     navigate('/');
   };
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="home-page fade-in">
       {/* Banner Section */}
@@ -71,8 +78,36 @@ const Home = () => {
           <p>Serving Faith with Love</p>
           <p className="banner-subtext">Discover a curated collection of spiritual wisdom and sacred artifacts designed to illuminate your path and strengthen your devotion.</p>
           <div className="banner-buttons">
-            <button className="btn-primary">Explore Collection</button>
-            <button className="btn-secondary">Our Mission</button>
+            <button className="btn-primary" onClick={() => scrollToSection('categories')}>Explore Collection</button>
+            <button className="btn-secondary" onClick={() => scrollToSection('mission')}>Our Mission</button>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Mission / Verses Section */}
+      <section className="mission-section" id="mission">
+        <div className="section-header center">
+          <h2>Our Holy Mission</h2>
+          <p>Spreading the word of God in the language of the heart.</p>
+        </div>
+        <div className="verses-grid">
+          <div className="verse-card-mission">
+            <div className="verse-icon">📖</div>
+            <h3>Faith in Action</h3>
+            <p>"దేవుడు లోకమును ఎంతో ప్రేమించెను... ఆయనను విశ్వసించు ప్రతివాడును నశింపక నిత్యజీవము పొందును."</p>
+            <p className="verse-ref-mission">— యోహాను (John) 3:16</p>
+          </div>
+          <div className="verse-card-mission">
+            <div className="verse-icon">🛡️</div>
+            <h3>God's Protection</h3>
+            <p>"యెహోవా నా కాపరి, నాకు లేమి కలుగదు. పచ్చిక గల చోట్ల ఆయన నన్ను పరుండజేయుచున్నాడు."</p>
+            <p className="verse-ref-mission">— కీర్తనలు (Psalms) 23:1-2</p>
+          </div>
+          <div className="verse-card-mission">
+            <div className="verse-icon">🕯️</div>
+            <h3>Word as Light</h3>
+            <p>"నీ వాక్యము నా పాదములకు దీపమును నా త్రోవకు వెలుగునై యున్నది."</p>
+            <p className="verse-ref-mission">— కీర్తనలు (Psalms) 119:105</p>
           </div>
         </div>
       </section>
@@ -110,7 +145,7 @@ const Home = () => {
       </section>
 
       {/* Categories */}
-      <section className="categories-section">
+      <section className="categories-section" id="categories">
         <div className="section-header">
           <h2>Explore Categories</h2>
           <button className="view-all" onClick={() => navigate('/categories')}>
@@ -118,19 +153,35 @@ const Home = () => {
           </button>
         </div>
         <div className="categories-grid">
-          <div className="category-card" style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=300")'}}>
+          <div 
+            className="category-card" 
+            style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=300")'}}
+            onClick={() => navigate('/?category=LITERATURE')}
+          >
             <h3>Bibles</h3>
             <p>Telugu & English ➔</p>
           </div>
-          <div className="category-card" style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1582845607310-7aa843fa10ee?auto=format&fit=crop&q=80&w=300")'}}>
+          <div 
+            className="category-card" 
+            style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1582845607310-7aa843fa10ee?auto=format&fit=crop&q=80&w=300")'}}
+            onClick={() => navigate('/?category=FRAMES')}
+          >
             <h3>Frames</h3>
             <p>Sacred Art ➔</p>
           </div>
-          <div className="category-card" style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=300")'}}>
+          <div 
+            className="category-card" 
+            style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=300")'}}
+            onClick={() => navigate('/?category=ACCESSORIES')}
+          >
             <h3>Key Chains</h3>
             <p>Holy Reminders ➔</p>
           </div>
-          <div className="category-card" style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=300")'}}>
+          <div 
+            className="category-card" 
+            style={{backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url("https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=300")'}}
+            onClick={() => navigate('/?category=CHRISTMAS')}
+          >
             <h3>Christmas</h3>
             <p>Seasonal Joy ➔</p>
           </div>

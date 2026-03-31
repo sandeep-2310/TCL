@@ -1,13 +1,82 @@
-import { User, MapPin, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight, LogIn } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { User, MapPin, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight, LogIn, Edit2, Check, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { updateUserData } from '../firebase';
 import './Profile.css';
 
 const Profile = () => {
   const { currentUser, logout, loading } = useAuth();
   const navigate = useNavigate();
+  
+  const [isEditingPersonal, setIsEditingPersonal] = useState(false);
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [personalInfo, setPersonalInfo] = useState({
+    fullName: '',
+    phone: ''
+  });
+  const [address, setAddress] = useState({
+    house: '',
+    street: '',
+    city: '',
+    pincode: ''
+  });
+
+  useEffect(() => {
+    if (currentUser && !currentUser.isAnonymous) {
+      setPersonalInfo({
+        fullName: currentUser.fullName || '',
+        phone: currentUser.phone || ''
+      });
+      const addr = currentUser.addresses?.[0] || {};
+      setAddress({
+        house: addr.house || '',
+        street: addr.street || '',
+        city: addr.city || '',
+        pincode: addr.pincode || ''
+      });
+    }
+  }, [currentUser]);
 
   if (loading || !currentUser) return <div className="page-container fade-in">Loading...</div>;
+
+  const handlePersonalSave = async () => {
+    try {
+      await updateUserData(currentUser.uid, {
+        fullName: personalInfo.fullName,
+        phone: personalInfo.phone
+      });
+      setIsEditingPersonal(false);
+      alert("Personal information updated successfully!");
+    } catch (error) {
+      alert("Failed to update personal info.");
+    }
+  };
+
+  const handleAddressSave = async () => {
+    try {
+      const newAddress = { ...address };
+      await updateUserData(currentUser.uid, {
+        addresses: [newAddress]
+      });
+      setIsEditingAddress(false);
+      alert("Address updated successfully!");
+    } catch (error) {
+      alert("Failed to update address.");
+    }
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'pincode' && value !== '' && (!/^\d+$/.test(value) || value.length > 6)) return;
+    setAddress(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePhoneChange = (e) => {
+    const { value } = e.target;
+    if (value !== '' && (!/^\d+$/.test(value) || value.length > 10)) return;
+    setPersonalInfo(prev => ({ ...prev, phone: value }));
+  };
 
   // Show a "please sign in" card for anonymous (guest) users
   if (currentUser.isAnonymous) {
@@ -44,7 +113,7 @@ const Profile = () => {
         <div className="profile-header-bg"></div>
         <div className="profile-greeting">
           <h2>Peace be with you,</h2>
-          <h1>{currentUser.fullName.split(' ')[0]}</h1>
+          <h1>{personalInfo.fullName.split(' ')[0] || 'Member'}</h1>
           <p className="blessing">"The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you."</p>
         </div>
       </div>
@@ -53,12 +122,23 @@ const Profile = () => {
         <div className="profile-section personal-card">
           <div className="section-header">
             <h3>Personal Details</h3>
-            <div className="icon-circle"><User size={18} /></div>
+            <button className="edit-icon-btn" onClick={() => setIsEditingPersonal(!isEditingPersonal)}>
+              {isEditingPersonal ? <X size={18} /> : <Edit2 size={18} />}
+            </button>
           </div>
           
           <div className="detail-item">
             <span className="label">FULL NAME</span>
-            <p>{currentUser.fullName}</p>
+            {isEditingPersonal ? (
+              <input 
+                className="edit-input"
+                type="text" 
+                value={personalInfo.fullName} 
+                onChange={(e) => setPersonalInfo(prev => ({ ...prev, fullName: e.target.value }))}
+              />
+            ) : (
+              <p>{personalInfo.fullName || 'Not specified'}</p>
+            )}
           </div>
           <div className="detail-item">
             <span className="label">EMAIL ADDRESS</span>
@@ -66,36 +146,84 @@ const Profile = () => {
           </div>
           <div className="detail-item borderless">
             <span className="label">PHONE NUMBER</span>
-            <p>{currentUser.phone}</p>
+            {isEditingPersonal ? (
+              <input 
+                className="edit-input"
+                type="tel" 
+                maxLength="10"
+                placeholder="10-digit mobile"
+                value={personalInfo.phone} 
+                onChange={handlePhoneChange}
+              />
+            ) : (
+              <p>{personalInfo.phone || 'Not specified'}</p>
+            )}
           </div>
           
-          <button className="btn-primary edit-profile-btn">Edit Profile</button>
+          {isEditingPersonal && (
+            <button className="btn-primary edit-profile-btn" onClick={handlePersonalSave}>
+              <Check size={18} /> Save Changes
+            </button>
+          )}
         </div>
 
         <div className="profile-section address-card">
           <div className="section-header">
-            <h3>Saved Address</h3>
-            <div className="icon-circle"><MapPin size={18} /></div>
+            <h3>Saved Address (India)</h3>
+            <button className="edit-icon-btn" onClick={() => setIsEditingAddress(!isEditingAddress)}>
+              {isEditingAddress ? <X size={18} /> : <Edit2 size={18} />}
+            </button>
           </div>
           
           <div className="address-form">
             <div className="form-group">
-              <label>HOUSE NUMBER</label>
-              <input type="text" value="Flat 402, Zion Heights" readOnly />
+              <label>HOUSE / FLAT NO.</label>
+              <input 
+                type="text" 
+                name="house"
+                value={address.house} 
+                onChange={handleAddressChange}
+                readOnly={!isEditingAddress} 
+              />
             </div>
             <div className="form-group">
-              <label>STREET</label>
-              <input type="text" value="Gospel Lane, Banjara Hills" readOnly />
+              <label>STREET / AREA</label>
+              <input 
+                type="text" 
+                name="street"
+                value={address.street} 
+                onChange={handleAddressChange}
+                readOnly={!isEditingAddress} 
+              />
             </div>
-            <div className="form-group">
-              <label>CITY</label>
-              <input type="text" value="Hyderabad" readOnly />
+            <div className="form-row">
+              <div className="form-group">
+                <label>CITY</label>
+                <input 
+                  type="text" 
+                  name="city"
+                  value={address.city} 
+                  onChange={handleAddressChange}
+                  readOnly={!isEditingAddress} 
+                />
+              </div>
+              <div className="form-group">
+                <label>PINCODE</label>
+                <input 
+                  type="text" 
+                  name="pincode"
+                  maxLength="6"
+                  value={address.pincode} 
+                  onChange={handleAddressChange}
+                  readOnly={!isEditingAddress} 
+                />
+              </div>
             </div>
-            <div className="form-group">
-              <label>PINCODE</label>
-              <input type="text" value="500034" readOnly />
-            </div>
-            <button className="btn-secondary save-address-btn">Save Address</button>
+            {isEditingAddress && (
+              <button className="btn-secondary save-address-btn" onClick={handleAddressSave}>
+                <Check size={18} /> Update Address
+              </button>
+            )}
           </div>
         </div>
 

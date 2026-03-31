@@ -12,7 +12,8 @@ const OrderConfirmation = () => {
         <div className="success-icon">
           <CheckCircle size={64} />
         </div>
-        <h2>Order Received!</h2>
+        <h2>Customer Order Placed Successfully!</h2>
+        <p className="success-subtitle">Your order for sacred items has been successfully received.</p>
         <p className="blessing-text">"Praise the Lord for His goodness."</p>
         
         <div className="order-details-box">

@@ -107,8 +107,59 @@
   font-family: monospace;
 }
 
-.edit-profile-btn {
+.personal-card .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.edit-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  color: var(--primary);
+  transition: all 0.2s;
+}
+
+.edit-icon-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.edit-input {
   width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background: var(--background);
+  margin-top: 5px;
+}
+
+.address-form .form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.address-form .form-row .form-group {
+  flex: 1;
+}
+
+.edit-profile-btn, .save-address-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
   margin-top: 20px;
 }
 

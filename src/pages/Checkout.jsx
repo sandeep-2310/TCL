@@ -16,39 +16,88 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    address: ''
+    house: '',
+    street: '',
+    city: '',
+    pincode: ''
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (cartItems.length === 0) {
       navigate('/cart');
     }
     if (currentUser) {
+      const addr = currentUser.addresses?.[0] || {};
       setFormData({
         name: currentUser.fullName || '',
         phone: currentUser.phone || '',
-        address: currentUser.addresses?.[0] 
-          ? `${currentUser.addresses[0].house}, ${currentUser.addresses[0].street}, ${currentUser.addresses[0].city} - ${currentUser.addresses[0].pincode}`
-          : ''
+        house: addr.house || '',
+        street: addr.street || '',
+        city: addr.city || '',
+        pincode: addr.pincode || ''
       });
     }
   }, [cartItems, currentUser, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    // Basic numeric constraint for phone and pincode
+    if ((name === 'phone' || name === 'pincode') && value !== '' && !/^\d+$/.test(value)) {
+      return;
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Indian Mobile: 10 digits, starts with 6-9
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = "Please enter a valid 10-digit Indian mobile number.";
+    }
+
+    // Pincode: 6 digits
+    const pincodeRegex = /^\d{6}$/;
+    if (!pincodeRegex.test(formData.pincode)) {
+      newErrors.pincode = "Please enter a valid 6-digit Indian Pincode.";
+    }
+
+    if (!formData.name.trim()) newErrors.name = "Name is required.";
+    if (!formData.house.trim()) newErrors.house = "House/Flat No. is required.";
+    if (!formData.street.trim()) newErrors.street = "Street/Area is required.";
+    if (!formData.city.trim()) newErrors.city = "City is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleCheckout = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
+      const fullAddress = `${formData.house}, ${formData.street}, ${formData.city} - ${formData.pincode}`;
+      
       const orderData = {
         userId: currentUser?.uid || 'guest',
         items: cartItems,
         totalAmount: getCartTotal(),
-        shippingInfo: formData,
+        shippingInfo: {
+          ...formData,
+          fullAddress
+        },
         paymentMethod,
         status: 'PENDING'
       };
@@ -91,18 +140,62 @@ const Checkout = () => {
               name="phone" 
               value={formData.phone} 
               onChange={handleInputChange} 
+              placeholder="10-digit mobile number"
               required 
             />
+            {errors.phone && <span className="error-text">{errors.phone}</span>}
           </div>
-          <div className="form-group">
-            <label>DELIVERY ADDRESS</label>
-            <textarea 
-              name="address" 
-              value={formData.address} 
-              onChange={handleInputChange} 
-              rows="3" 
-              required 
-            ></textarea>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>HOUSE / FLAT NO.</label>
+              <input 
+                type="text" 
+                name="house" 
+                value={formData.house} 
+                onChange={handleInputChange} 
+                required 
+              />
+              {errors.house && <span className="error-text">{errors.house}</span>}
+            </div>
+            <div className="form-group">
+              <label>STREET / AREA</label>
+              <input 
+                type="text" 
+                name="street" 
+                value={formData.street} 
+                onChange={handleInputChange} 
+                required 
+              />
+              {errors.street && <span className="error-text">{errors.street}</span>}
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>CITY</label>
+              <input 
+                type="text" 
+                name="city" 
+                value={formData.city} 
+                onChange={handleInputChange} 
+                required 
+              />
+              {errors.city && <span className="error-text">{errors.city}</span>}
+            </div>
+            <div className="form-group">
+              <label>PINCODE (INDIA)</label>
+              <input 
+                type="text" 
+                name="pincode" 
+                maxLength="6"
+                placeholder="6 digits"
+                value={formData.pincode} 
+                onChange={handleInputChange} 
+                required 
+              />
+              {errors.pincode && <span className="error-text">{errors.pincode}</span>}
+            </div>
           </div>
         </section>
 
