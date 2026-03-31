@@ -1,5 +1,6 @@
 import { Search, ChevronRight, Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { fetchProducts } from '../firebase';
 import { useWishlist } from '../context/WishlistContext';
@@ -8,6 +9,7 @@ import './Home.css';
 const Home = () => {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -138,10 +140,17 @@ const Home = () => {
                 >
                   <Heart size={18} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
                 </button>
-                <img src={product.imageUrl} alt={product.name} />
+                <img 
+                  src={product.imageUrl} 
+                  alt={product.name} 
+                  onClick={() => navigate(`/product/${product.id}`)} 
+                  style={{cursor: 'pointer'}} 
+                />
                 <div className="product-info">
                   <span className="product-category">{product.category}</span>
-                  <h3>{product.name}</h3>
+                  <h3 onClick={() => navigate(`/product/${product.id}`)} style={{cursor: 'pointer'}}>
+                    {product.name}
+                  </h3>
                   <p>{product.description}</p>
                   <div className="product-footer">
                     <span className="price">₹{product.price}</span>

@@ -37,11 +37,11 @@ const Wishlist = () => {
       <div className="wishlist-grid">
         {wishlistItems.map((item) => (
           <div className="wishlist-card" key={item.id}>
-            <div className="wishlist-img-wrapper">
+            <div className="wishlist-img-wrapper" onClick={() => navigate(`/product/${item.id}`)} style={{cursor: 'pointer'}}>
               <img src={item.imageUrl} alt={item.name} />
               <button 
                 className="remove-wishlist-btn" 
-                onClick={() => toggleWishlist(item)}
+                onClick={(e) => { e.stopPropagation(); toggleWishlist(item); }}
                 aria-label="Remove from wishlist"
               >
                 <Trash2 size={16} />
@@ -49,7 +49,9 @@ const Wishlist = () => {
             </div>
             <div className="wishlist-info">
               <span className="product-category">{item.category}</span>
-              <h3>{item.name}</h3>
+              <h3 onClick={() => navigate(`/product/${item.id}`)} style={{cursor: 'pointer'}}>
+                {item.name}
+              </h3>
               <p className="price">₹{item.price}</p>
               <button 
                 className="btn-primary move-cart-btn"
