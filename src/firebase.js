@@ -31,9 +31,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Expanded mock data
+// Expanded mock data with 24 premium items (6 per category)
 export const MOCK_PRODUCTS = [
-  // HOLY BIBLES (LITERATURE)
+  // HOLY BIBLES (LITERATURE) - 6 Items
   {
     id: 'bible-1',
     name: 'Telugu Study Bible - Premium Leather',
@@ -64,8 +64,38 @@ export const MOCK_PRODUCTS = [
     badge: 'KIDS',
     stock: 50
   },
-  
-  // FRAMES
+  {
+    id: 'bible-4',
+    name: 'The Living Word - Youth Edition',
+    category: 'LITERATURE',
+    price: 850,
+    description: 'Modern Telugu translation designed for youth with practical life applications.',
+    imageUrl: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&q=80&w=400',
+    badge: 'NEW',
+    stock: 35
+  },
+  {
+    id: 'bible-5',
+    name: 'Large Print Telugu Bible',
+    category: 'LITERATURE',
+    price: 950,
+    description: 'Easy-to-read large font Telugu Bible, ideal for seniors.',
+    imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=400',
+    badge: 'COMFORT',
+    stock: 20
+  },
+  {
+    id: 'bible-6',
+    name: 'Pocket-Size Telugu New Testament',
+    category: 'LITERATURE',
+    price: 150,
+    description: 'Compact New Testament for carrying God\'s word wherever you go.',
+    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
+    badge: 'TRAVEL',
+    stock: 100
+  },
+
+  // SACRED FRAMES (FRAMES) - 6 Items
   {
     id: 'frame-1',
     name: 'The Last Supper - Golden Carved Frame',
@@ -96,8 +126,38 @@ export const MOCK_PRODUCTS = [
     badge: null,
     stock: 20
   },
+  {
+    id: 'frame-4',
+    name: 'Psalm 23 Wall Art - Modern Minimalist',
+    category: 'FRAMES',
+    price: 750,
+    description: 'Modern minimalist design of Psalm 23 in Telugu on high-grade paper with a sleek black frame.',
+    imageUrl: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=400',
+    badge: 'MODERN',
+    stock: 30
+  },
+  {
+    id: 'frame-5',
+    name: '10 Commandments - Stone Look Frame',
+    category: 'FRAMES',
+    price: 1500,
+    description: 'Unique stone-textured frame featuring the Ten Commandments in Telugu.',
+    imageUrl: 'https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=400',
+    badge: null,
+    stock: 12
+  },
+  {
+    id: 'frame-6',
+    name: 'Resurrection Joy - Stained Glass Look',
+    category: 'FRAMES',
+    price: 1100,
+    description: 'Beautiful acrylic frame with a stained-glass effect depicting the Resurrection.',
+    imageUrl: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=400',
+    badge: 'ART',
+    stock: 18
+  },
 
-  // KEYCHAINS (ACCESSORIES)
+  // HOLY ACCESSORIES (KEYCHAINS) - 6 Items
   {
     id: 'key-1',
     name: 'Metallic Cross Keychain - Silver',
@@ -110,10 +170,10 @@ export const MOCK_PRODUCTS = [
   },
   {
     id: 'key-2',
-    name: 'I Can Do All Things - Bible Verse Key',
+    name: 'Philippians 4:13 Tag Keychain',
     category: 'ACCESSORIES',
     price: 180,
-    description: 'Round keychain with Philippians 4:13 inscribed in Telugu.',
+    description: 'Engraved metallic tag with "I can do all things through Christ" in Telugu.',
     imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
     badge: 'TRENDING',
     stock: 80
@@ -128,15 +188,45 @@ export const MOCK_PRODUCTS = [
     badge: null,
     stock: 200
   },
+  {
+    id: 'key-4',
+    name: 'Leather Strap "Jesus" Keychain',
+    category: 'ACCESSORIES',
+    price: 220,
+    description: 'Premium brown leather strap keychain with embossed name of Jesus.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'LEATHER',
+    stock: 50
+  },
+  {
+    id: 'key-5',
+    name: 'Glowing Cross - Neon Keychain',
+    category: 'ACCESSORIES',
+    price: 250,
+    description: 'Glow-in-the-dark acrylic cross keychain, perfect for finding keys at night.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'Glow',
+    stock: 60
+  },
+  {
+    id: 'key-6',
+    name: 'Bible Verse Rotating Cube Keychain',
+    category: 'ACCESSORIES',
+    price: 300,
+    description: 'Rotating cube keychain with 4 different Bible verses on each side.',
+    imageUrl: 'https://images.unsplash.com/photo-1596728082404-b952a20b875c?auto=format&fit=crop&q=80&w=400',
+    badge: 'UNIQUE',
+    stock: 45
+  },
 
-  // CHRISTMAS
+  // CHRISTMAS JOY (CHRISTMAS) - 6 Items
   {
     id: 'xmas-1',
     name: 'Nativity Set - 12 Piece Deluxe',
     category: 'CHRISTMAS',
     price: 3500,
     description: 'Exquisite 12-piece nativity scene handcrafted from high-quality resin.',
-    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
+    imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80&w=400',
     badge: 'SEASONAL',
     stock: 8
   },
@@ -146,8 +236,8 @@ export const MOCK_PRODUCTS = [
     category: 'CHRISTMAS',
     price: 850,
     description: 'Illuminated 12-inch angel tree topper for your Christmas celebrations.',
-    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
-    badge: 'NEW',
+    imageUrl: 'https://images.unsplash.com/photo-1576692139735-b04e9c73df41?auto=format&fit=crop&q=80&w=400',
+    badge: 'TOP SELLER',
     stock: 30
   },
   {
@@ -155,10 +245,40 @@ export const MOCK_PRODUCTS = [
     name: 'Bible Verse Xmas Bauble Set (6pcs)',
     category: 'CHRISTMAS',
     price: 450,
-    description: 'Set of 6 Christmas tree baubles featuring Christmas-themed Bible verses.',
-    imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
+    description: 'Set of 6 Christmas tree baubles featuring Christmas-themed Bible verses in Telugu.',
+    imageUrl: 'https://images.unsplash.com/photo-1512474932049-7826d6909550?auto=format&fit=crop&q=80&w=400',
     badge: null,
     stock: 60
+  },
+  {
+    id: 'xmas-4',
+    name: 'Hand-Painted Star of Bethlehem',
+    category: 'CHRISTMAS',
+    price: 350,
+    description: 'Ceramic hand-painted star ornament with "For Unto Us a Child is Born" text.',
+    imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80&w=400',
+    badge: null,
+    stock: 120
+  },
+  {
+    id: 'xmas-5',
+    name: 'Wooden Stable - DIY Nativity Kit',
+    category: 'CHRISTMAS',
+    price: 1200,
+    description: 'Hand-cut wooden stable kit for building your own nativity scene at home.',
+    imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80&w=400',
+    badge: 'LIMITED',
+    stock: 15
+  },
+  {
+    id: 'xmas-6',
+    name: 'Christmas advent Candle Set (4pcs)',
+    category: 'CHRISTMAS',
+    price: 600,
+    description: 'Set of 4 advent candles representing Hope, Peace, Joy, and Love.',
+    imageUrl: 'https://images.unsplash.com/photo-1576692139735-b04e9c73df41?auto=format&fit=crop&q=80&w=400',
+    badge: 'FAITH',
+    stock: 40
   }
 ];
 

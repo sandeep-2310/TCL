@@ -41,26 +41,22 @@ const Categories = () => {
 
   return (
     <div className="categories-page page-container fade-in">
-      <h2>All Categories</h2>
-      <p className="page-subtitle">Browse our sacred collection</p>
+      <div className="categories-header">
+        <h2>Sacred Collections</h2>
+        <p className="page-subtitle">Curated categories for your spiritual growth</p>
+      </div>
       
-      <div className="categories-list">
+      <div className="categories-grid-primary">
         {categories.map((cat) => (
           <div 
-            className="category-list-item" 
+            className="category-item-card" 
             key={cat.id} 
             onClick={() => handleCategoryClick(cat.key)}
+            style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url("${cat.image}")`}}
           >
-            <div 
-              className="category-img" 
-              style={{backgroundImage: `url("${cat.image}")`}}
-            />
-            <div className="category-info">
+            <div className="category-card-overlay">
               <h3>{cat.name}</h3>
-              <p>{cat.count}</p>
-            </div>
-            <div className="category-arrow">
-              <ChevronRight size={20} />
+              <div className="explore-badge">Explore ➔</div>
             </div>
           </div>
         ))}
