@@ -500,10 +500,10 @@ export const createOrder = async (orderData) => {
     }
     const orderWithTimestamp = {
       ...orderData,
-      createdAt: new Date().toISOString()
+      created_at: new Date().toISOString()
     };
     const docRef = await addDoc(collection(db, "orders"), orderWithTimestamp);
-    return { success: true, orderId: docRef.id, timestamp: orderWithTimestamp.createdAt };
+    return { success: true, orderId: docRef.id, timestamp: orderWithTimestamp.created_at };
   } catch (error) {
     console.error("Error creating order in Firebase:", error);
     throw error;
@@ -517,8 +517,8 @@ export const fetchUserOrders = async (userId) => {
     const ordersRef = collection(db, "orders");
     const q = query(
       ordersRef, 
-      where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      where("user_id", "==", userId),
+      orderBy("created_at", "desc")
     );
     const snapshot = await getDocs(q);
     const orders = [];

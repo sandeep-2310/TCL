@@ -66,22 +66,22 @@ const Orders = () => {
                 <div className="order-main-info">
                   <div className="order-id-block">
                     <span className="label">ORDER #</span>
-                    <span className="value">{order.id.slice(-8).toUpperCase()}</span>
+                    <span className="value">{order.razorpay_order_id ? order.razorpay_order_id.slice(-8).toUpperCase() : order.id.slice(-8).toUpperCase()}</span>
                   </div>
                   <div className="order-date-block">
                     <Calendar size={14} />
-                    <span>{formatDate(order.createdAt)}</span>
+                    <span>{formatDate(order.created_at)}</span>
                   </div>
                 </div>
-                <div className="order-status-pill">
-                  {order.status || 'Processing'}
+                <div className={`order-status-pill ${order.order_status?.toLowerCase()}`}>
+                  {order.order_status || 'Processing'}
                 </div>
               </div>
 
               <div className="order-items-summary">
                 {order.items.map((item, index) => (
                   <div className="item-mini" key={index}>
-                    <img src={item.imageUrl} alt={item.name} />
+                    <img src={item.imageUrl || 'https://via.placeholder.com/50'} alt={item.name} />
                     <div className="item-mini-info">
                       <h4>{item.name}</h4>
                       <p>Qty: {item.quantity} • ₹{item.price}</p>
@@ -93,7 +93,7 @@ const Orders = () => {
               <div className="order-card-footer">
                 <div className="order-total">
                   <span className="label">TOTAL AMOUNT</span>
-                  <span className="value">₹{order.total}</span>
+                  <span className="value">₹{order.total_price}</span>
                 </div>
                 <button className="order-detail-btn" onClick={() => navigate(`/order-confirmation/${order.id}`)}>
                   View Details <ChevronRight size={16} />
