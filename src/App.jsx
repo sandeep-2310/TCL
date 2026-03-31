@@ -9,6 +9,7 @@ import OrderConfirmation from './pages/OrderConfirmation';
 import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         {/* Auth pages — no header/bottom nav */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Main app with Layout (header + bottom nav) */}
         <Route path="/" element={<Layout />}>

@@ -227,3 +227,58 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+/* Forgot Password extras */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 22px;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--primary);
+}
+
+.reset-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.success-icon-wrap {
+  color: #27ae60;
+  margin-bottom: 18px;
+  animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.reset-success h2 {
+  font-family: serif;
+  font-size: 1.7rem;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.reset-success p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.reset-hint {
+  font-size: 0.8rem !important;
+  opacity: 0.7;
+}
