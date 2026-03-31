@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import SplashScreen from './pages/SplashScreen';
 import ProductDetail from './pages/ProductDetail';
+import Orders from './pages/Orders';
 import './App.css';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="order-confirmation/:orderId" element={<OrderConfirmation />} />
           <Route path="wishlist" element={<Wishlist />} />
           <Route path="product/:id" element={<ProductDetail />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
       </Routes>
     </Router>

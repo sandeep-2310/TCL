@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, doc, setDoc, query, where, orderBy } from 'firebase/firestore';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getAnalytics } from "firebase/analytics";
 
@@ -116,5 +116,31 @@ export const createOrder = async (orderData) => {
   } catch (error) {
     console.error("Error creating order in Firebase:", error);
     throw error;
+  }
+};
+
+// Fetch user-specific orders
+export const fetchUserOrders = async (userId) => {
+  try {
+    if (!userId) return [];
+    
+    const ordersRef = collection(db, "orders");
+    const q = query(
+      ordersRef, 
+      where("userId", "==", userId),
+      orderBy("createdAt", "desc")
+    );
+    
+    const snapshot = await getDocs(q);
+    const orders = [];
+    snapshot.forEach((doc) => {
+      orders.push({ id: doc.id, ...doc.data() });
+    });
+    
+    return orders;
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    // If it's an index error, Firestore usually provides a link in the console
+    return [];
   }
 };

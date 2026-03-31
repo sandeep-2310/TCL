@@ -106,7 +106,7 @@ const Profile = () => {
         </div>
 
         <div className="action-menu">
-          <button className="menu-item">
+          <button className="menu-item" onClick={() => navigate('/orders')}>
             <div className="menu-icon"><ShoppingBag size={20} /></div>
             <span>Order History</span>
             <ChevronRight size={20} className="chevron" />
