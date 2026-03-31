@@ -13,16 +13,28 @@ const ProductDetail = () => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getProduct = async () => {
+    const getProductData = async () => {
+      setLoading(true);
       const allProducts = await fetchProducts();
       const found = allProducts.find(p => p.id === id);
-      setProduct(found);
+      
+      if (found) {
+        setProduct(found);
+        // Find 4 other products in the same category
+        const related = allProducts
+          .filter(p => p.category === found.category && p.id !== id)
+          .sort(() => 0.5 - Math.random()) // Shuffle
+          .slice(0, 4);
+        setRelatedProducts(related);
+      }
       setLoading(false);
+      window.scrollTo(0, 0); // Reset scroll on product change
     };
-    getProduct();
+    getProductData();
   }, [id]);
 
   if (loading) return <div className="page-container fade-in">Seeking sacred artifacts...</div>;
@@ -92,6 +104,27 @@ const ProductDetail = () => {
             <span>High Quality</span>
           </div>
         </div>
+
+        {relatedProducts.length > 0 && (
+          <div className="related-section">
+            <h3>Suggested for You</h3>
+            <div className="related-grid">
+              {relatedProducts.map(rp => (
+                <div 
+                  key={rp.id} 
+                  className="related-item"
+                  onClick={() => navigate(`/product/${rp.id}`)}
+                >
+                  <img src={rp.imageUrl} alt={rp.name} />
+                  <div className="related-info">
+                    <h4>{rp.name}</h4>
+                    <p>₹{rp.price}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="sticky-footer">

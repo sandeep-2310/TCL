@@ -189,6 +189,65 @@
   color: var(--text-muted);
 }
 
+.related-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.related-section h3 {
+  font-family: serif;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--text-main);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.related-item {
+  background: var(--background);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 1px solid rgba(212, 175, 55, 0.05);
+}
+
+.related-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+}
+
+.related-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.related-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.related-info h4 {
+  font-size: 0.8rem;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.related-info p {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 .sticky-footer {
   position: fixed;
   bottom: 0;

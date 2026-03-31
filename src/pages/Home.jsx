@@ -1,4 +1,4 @@
-import { Search, ChevronRight, Heart, X } from 'lucide-react';
+import { Search, ChevronRight, Heart, X, ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -15,6 +15,19 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Read category from query params: /?category=LITERATURE
   const queryParams = new URLSearchParams(location.search);
@@ -252,6 +265,12 @@ const Home = () => {
         <p>"Light to your path, Hope for your heart."</p>
         <p className="copyright">© 2024 Telugu Christian Literature. All Rights Reserved.</p>
       </footer>
+
+      {showScrollTop && (
+        <button className="scroll-top-btn" onClick={scrollToTop}>
+          <ChevronUp size={24} />
+        </button>
+      )}
     </div>
   );
 };
