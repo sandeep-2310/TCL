@@ -36,20 +36,25 @@ export default async function handler(req, res) {
 
     const docRef = await db.collection('orders').add(finalOrder);
 
-    // 3. Optional: Decrease stock
+    // 3. Atomically decrease stock levels
     const batch = db.batch();
     for (const item of orderData.items) {
-      const productRef = db.collection('products').doc(item.id);
-      batch.update(productRef, {
-        stock: admin.firestore.FieldValue.increment(-item.quantity)
-      });
+      if (item.id) {
+        const productRef = db.collection('products').doc(item.id);
+        const productDoc = await productRef.get();
+        if (productDoc.exists) {
+          batch.update(productRef, {
+            stock: admin.firestore.FieldValue.increment(-item.quantity)
+          });
+        }
+      }
     }
-    // await batch.commit(); // Only if products are fully managed in DB
+    await batch.commit();
 
     return res.status(200).json({ 
       success: true, 
       orderId: docRef.id,
-      message: 'Payment verified and order saved successfully.' 
+      message: 'Payment verified, order saved, and stock updated successfully.' 
     });
   } catch (error) {
     console.error('Order saving error:', error);
