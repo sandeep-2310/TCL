@@ -23,8 +23,13 @@ const Orders = () => {
   }, [currentUser]);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    if (!dateString) return 'Date unknown';
+    try {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    } catch {
+      return 'Invalid date';
+    }
   };
 
   if (loading) {
@@ -66,25 +71,29 @@ const Orders = () => {
                 <div className="order-main-info">
                   <div className="order-id-block">
                     <span className="label">ORDER #</span>
-                    <span className="value">{order.razorpay_order_id ? order.razorpay_order_id.slice(-8).toUpperCase() : order.id.slice(-8).toUpperCase()}</span>
+                    <span className="value">
+                      {order.razorpay_order_id 
+                        ? order.razorpay_order_id.slice(-8).toUpperCase() 
+                        : (order.id ? order.id.slice(-8).toUpperCase() : 'UNKNOWN')}
+                    </span>
                   </div>
                   <div className="order-date-block">
                     <Calendar size={14} />
                     <span>{formatDate(order.created_at)}</span>
                   </div>
                 </div>
-                <div className={`order-status-pill ${order.order_status?.toLowerCase()}`}>
+                <div className={`order-status-pill ${order.order_status?.toLowerCase() || 'processing'}`}>
                   {order.order_status || 'Processing'}
                 </div>
               </div>
 
               <div className="order-items-summary">
-                {order.items.map((item, index) => (
+                {order.items?.map((item, index) => (
                   <div className="item-mini" key={index}>
-                    <img src={item.imageUrl || 'https://via.placeholder.com/50'} alt={item.name} />
+                    <img src={item.imageUrl || 'https://via.placeholder.com/50'} alt={item.name || 'Sacred Item'} />
                     <div className="item-mini-info">
-                      <h4>{item.name}</h4>
-                      <p>Qty: {item.quantity} • ₹{item.price}</p>
+                      <h4>{item.name || 'Product'}</h4>
+                      <p>Qty: {item.quantity || 1} • ₹{item.price || 0}</p>
                     </div>
                   </div>
                 ))}

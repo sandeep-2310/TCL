@@ -3,7 +3,6 @@ import {
   getFirestore, 
   collection, 
   getDocs, 
-  getDoc,
   addDoc, 
   doc, 
   setDoc, 
@@ -12,8 +11,7 @@ import {
   where, 
   orderBy 
 } from 'firebase/firestore';
-import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -528,6 +526,10 @@ export const fetchUserOrders = async (userId) => {
     return orders;
   } catch (error) {
     console.error("Error fetching user orders:", error);
+    // In Firestore, if where and orderBy are used together, a composite index is required.
+    if (error.code === 'failed-precondition' || error.message.includes('requires an index')) {
+      console.error("Firestore INDEX MISSING! Please check the Firebase console to create the composite index for the 'orders' collection.");
+    }
     return [];
   }
 };

@@ -48,7 +48,7 @@ const Login = () => {
     try {
       await loginWithGoogle();
       navigate('/profile');
-    } catch (err) {
+    } catch {
       setError('Google sign-in failed. Please try again.');
     } finally {
       setLoading(false);

@@ -23,12 +23,14 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (currentUser && !currentUser.isAnonymous) {
+    if (currentUser && !currentUser.isAnonymous && !isEditingPersonal && !isEditingAddress) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPersonalInfo({
         fullName: currentUser.fullName || '',
         phone: currentUser.phone || ''
       });
       const addr = currentUser.addresses?.[0] || {};
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAddress({
         house: addr.house || '',
         street: addr.street || '',
@@ -36,7 +38,7 @@ const Profile = () => {
         pincode: addr.pincode || ''
       });
     }
-  }, [currentUser]);
+  }, [currentUser, isEditingPersonal, isEditingAddress]);
 
   if (loading || !currentUser) return <div className="page-container fade-in">Loading...</div>;
 
@@ -48,7 +50,7 @@ const Profile = () => {
       });
       setIsEditingPersonal(false);
       alert("Personal information updated successfully!");
-    } catch (error) {
+    } catch {
       alert("Failed to update personal info.");
     }
   };
@@ -61,7 +63,7 @@ const Profile = () => {
       });
       setIsEditingAddress(false);
       alert("Address updated successfully!");
-    } catch (error) {
+    } catch {
       alert("Failed to update address.");
     }
   };
