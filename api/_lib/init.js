@@ -5,10 +5,15 @@ import Razorpay from 'razorpay';
 // Initialize Firebase Admin
 if (!admin.apps.length) {
   try {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
-    });
+    const serviceAccountVar = process.env.FIREBASE_SERVICE_ACCOUNT;
+    if (serviceAccountVar) {
+      const serviceAccount = JSON.parse(serviceAccountVar);
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+      });
+    } else {
+      console.warn('FIREBASE_SERVICE_ACCOUNT is not set. Firebase features will be unavailable.');
+    }
   } catch (error) {
     console.error('Firebase Admin initialization error:', error);
   }

@@ -1,5 +1,4 @@
 import { db, verifyAdmin } from '../_lib/init';
-import admin from 'firebase-admin';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
