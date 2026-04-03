@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { db } from '../_lib/init';
+import { db, admin } from '../_lib/init';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
