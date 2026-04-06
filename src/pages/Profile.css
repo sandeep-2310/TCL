@@ -364,3 +364,33 @@
   font-weight: 600;
   border: 1px solid rgba(0,0,0,0.08);
 }
+
+.ai-btn {
+  background: var(--white);
+  padding: 15px !important;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: var(--primary) !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-weight: 600;
+}
+
+.store-info-card {
+  border: 1px solid var(--secondary);
+  background: linear-gradient(to bottom right, var(--white), var(--secondary-light)) !important;
+}
+
+.badge-official {
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

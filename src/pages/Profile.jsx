@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { User, MapPin, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight, LogIn, Edit2, Check, X } from 'lucide-react';
+import { User, MapPin, Heart, ShoppingBag, LogOut, HelpCircle, Mail, ChevronRight, LogIn, Edit2, Check, X, Bot } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { updateUserData } from '../firebase';
+import AIChatBot from '../components/AIChatBot';
 import './Profile.css';
 
 const Profile = () => {
   const { currentUser, logout, loading } = useAuth();
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
   
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -235,6 +237,30 @@ const Profile = () => {
           <p>Member since {currentUser.joined}</p>
         </div>
 
+        <div className="profile-section store-info-card">
+          <div className="section-header">
+            <h3>Store & Owner Information</h3>
+            <div className="badge-official">OFFICIAL</div>
+          </div>
+          
+          <div className="detail-item">
+            <span className="label">OWNER NAME</span>
+            <p>Sandeep (TCL Management)</p>
+          </div>
+          <div className="detail-item">
+            <span className="label">MOBILE NUMBER</span>
+            <p>+91 91234 56789</p>
+          </div>
+          <div className="detail-item">
+            <span className="label">STORE LOCATION</span>
+            <p>12-45, Market Street, Kakinada, AP, 533001</p>
+          </div>
+          <div className="detail-item borderless">
+            <span className="label">REGION / STATE</span>
+            <p>Andhra Pradesh, India</p>
+          </div>
+        </div>
+
         <div className="action-menu">
           <button className="menu-item" onClick={() => navigate('/orders')}>
             <div className="menu-icon"><ShoppingBag size={20} /></div>
@@ -254,6 +280,9 @@ const Profile = () => {
 
         <div className="support-section">
           <h4>SUPPORT</h4>
+          <button className="support-item ai-btn" onClick={() => setIsChatOpen(true)}>
+            <Bot size={14} color="var(--primary)" /> Ask AI Assistant
+          </button>
           <button className="support-item" onClick={() => navigate('/help')}>
             <HelpCircle size={14} /> Help Center
           </button>
@@ -261,6 +290,8 @@ const Profile = () => {
             <Mail size={14} /> Contact Us
           </button>
         </div>
+
+        <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       </div>
     </div>
   );
