@@ -190,9 +190,6 @@ export const MOCK_PRODUCTS = [
     stock: 22,
     specifications: { language: 'Telugu', features: 'Full-color' }
   },
-  // All other products will have inherited store defaults in the UI if missing
-  ...MOCK_PRODUCTS.slice(10)
-,
 
   // SACRED FRAMES (FRAMES) - 10 Items
   {
