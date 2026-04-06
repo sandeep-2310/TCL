@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot, User } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { Bot, User, Send, X, Sparkles } from 'lucide-react';
+import { botKnowledge, defaultResponse } from '../data/botKnowledge';
 import './AIChatBot.css';
 
 const AIChatBot = ({ isOpen, onClose }) => {
@@ -10,42 +11,50 @@ const AIChatBot = ({ isOpen, onClose }) => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping]);
+  }, [messages, isTyping, scrollToBottom]);
 
   const generateResponse = (text) => {
     const query = text.toLowerCase();
-    if (query.includes('hello') || query.includes('hi')) return "Praise the Lord! How can I assist you in your spiritual search today?";
-    if (query.includes('shipping') || query.includes('delivery')) return "We deliver sacred items across India. Standard shipping takes 3-5 business days. Express options are available at checkout.";
-    if (query.includes('order')) return "You can view and track all your blessed orders in the 'Order History' section of your profile.";
-    if (query.includes('payment')) return "We accept UPI (GPay, PhonePe), Credit/Debit cards, and Net Banking securely via Razorpay.";
-    if (query.includes('location') || query.includes('store') || query.includes('address')) return "Our main store is located at 12-45, Market Street, Kakinada, Andhra Pradesh. We are open Mon-Sat, 9AM-7PM.";
-    if (query.includes('contact') || query.includes('owner') || query.includes('number')) return "You can contact our owner, Sandeep, at +91 99887 76655 or email us at support@tcl.com.";
-    if (query.includes('return') || query.includes('refund')) return "We accept returns for damaged items within 7 days of delivery. Please keep all original sacred packaging.";
+    let bestMatch = null;
+    let maxOverlap = 0;
+
+    for (const item of botKnowledge) {
+      const overlap = item.keywords.filter(kw => query.includes(kw)).length;
+      if (overlap > maxOverlap) {
+        maxOverlap = overlap;
+        bestMatch = item;
+      }
+    }
+
+    if (bestMatch && maxOverlap > 0) {
+      return bestMatch.response;
+    }
     
-    return "I'm still learning how to better serve the TCL community. For specific inquiries, you can reach our support team directly at +91 99887 76655. God bless!";
+    return defaultResponse;
   };
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const handleSend = async (e, customText = null) => {
+    if (e) e.preventDefault();
+    const messageText = customText || input;
+    if (!messageText.trim()) return;
 
-    const userMessage = { id: Date.now(), text: input, sender: 'user', timestamp: new Date() };
+    const userMessage = { id: Date.now(), text: messageText, sender: 'user', timestamp: new Date() };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsTyping(true);
 
     // Simulate AI thinking
     setTimeout(() => {
-      const botResponse = generateResponse(input);
+      const botResponse = generateResponse(messageText);
       setMessages(prev => [...prev, { id: Date.now() + 1, text: botResponse, sender: 'bot', timestamp: new Date() }]);
       setIsTyping(false);
-    }, 1000);
+    }, 800);
   };
 
   if (!isOpen) return null;
@@ -89,7 +98,22 @@ const AIChatBot = ({ isOpen, onClose }) => {
           <div ref={messagesEndRef} />
         </div>
 
-        <form className="ai-chatbot-input" onSubmit={handleSend}>
+        <div className="quick-replies">
+          <p className="suggestion-title"><Sparkles size={12} /> Suggested Questions:</p>
+          <div className="reply-chips">
+            {['Track Order', 'Store Location', 'Spiritual Help', 'Contact Owner'].map((suggestion) => (
+              <button 
+                key={suggestion} 
+                className="chip"
+                onClick={() => handleSend(null, suggestion)}
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <form className="ai-chatbot-input" onSubmit={(e) => handleSend(e)}>
           <input 
             type="text" 
             placeholder="Ask me about orders, shipping..." 
