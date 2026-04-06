@@ -83,11 +83,39 @@ const ProductDetail = () => {
 
         <div className="description-section">
           <h3>Description</h3>
-          <p>{product.description}</p>
-          <p className="extra-desc">
-            This premium religious artifact is carefully curated to bring peace and spiritual growth 
-            to your home. Hand-selected for the Telugu Christian Literature community.
-          </p>
+          <p>{product.fullDescription || product.description}</p>
+          {!product.fullDescription && (
+            <p className="extra-desc">
+              This premium religious artifact is carefully curated to bring peace and spiritual growth 
+              to your home. Hand-selected for the Telugu Christian Literature community.
+            </p>
+          )}
+        </div>
+
+        {product.specifications && (
+          <div className="specs-section">
+            <h3>Specifications</h3>
+            <div className="specs-grid">
+              {Object.entries(product.specifications).map(([key, value]) => (
+                <div key={key} className="spec-item">
+                  <span className="spec-key">{key.toUpperCase()}</span>
+                  <span className="spec-value">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="seller-section">
+          <h3>Seller Information</h3>
+          <div className="seller-card">
+            <div className="seller-icon">⛪</div>
+            <div className="seller-info">
+              <h4>{product.ownerInfo?.store || 'Telugu Christian Literature (TCL)'}</h4>
+              <p>{product.ownerInfo?.name || 'TCL Management'}</p>
+              <p className="seller-location">📍 {product.ownerInfo?.address || product.ownerInfo?.location || 'Kakinada, Andhra Pradesh, India'}</p>
+            </div>
+          </div>
         </div>
 
         <div className="features-grid">

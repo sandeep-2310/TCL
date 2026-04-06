@@ -155,6 +155,93 @@
   opacity: 0.8;
 }
 
+.specs-section, .seller-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.specs-section h3, .seller-section h3 {
+  font-family: serif;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: var(--text-main);
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  background: var(--background);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.spec-item:last-child {
+  border-bottom: none;
+}
+
+.spec-key {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.spec-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.seller-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--white);
+  padding: 15px;
+  border-radius: 16px;
+  border: 1px solid var(--secondary);
+}
+
+.seller-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--secondary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.seller-info h4 {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.seller-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.seller-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary) !important;
+  font-weight: 600;
+}
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

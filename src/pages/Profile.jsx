@@ -254,10 +254,10 @@ const Profile = () => {
 
         <div className="support-section">
           <h4>SUPPORT</h4>
-          <button className="support-item">
+          <button className="support-item" onClick={() => navigate('/help')}>
             <HelpCircle size={14} /> Help Center
           </button>
-          <button className="support-item">
+          <button className="support-item" onClick={() => navigate('/contact')}>
             <Mail size={14} /> Contact Us
           </button>
         </div>

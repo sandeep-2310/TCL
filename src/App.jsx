@@ -14,6 +14,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import SplashScreen from './pages/SplashScreen';
 import ProductDetail from './pages/ProductDetail';
 import Orders from './pages/Orders';
+import HelpCenter from './pages/HelpCenter';
+import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
@@ -50,6 +52,8 @@ function App() {
           <Route path="wishlist" element={<Wishlist />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="help" element={<HelpCenter />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
     </Router>

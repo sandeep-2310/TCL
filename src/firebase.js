@@ -38,9 +38,21 @@ export const MOCK_PRODUCTS = [
     category: 'LITERATURE',
     price: 1850,
     description: 'Gold-edged premium leather bound Telugu Study Bible with exhaustive cross-references.',
+    fullDescription: 'This comprehensive Telugu Study Bible is designed for serious students of God\'s Word. It features exhaustive cross-references, verse-by-verse notes, and historical context for every book. The premium leather binding ensures durability for lifelong use.',
     imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
     badge: 'BEST SELLER',
-    stock: 25
+    stock: 25,
+    specifications: {
+      language: 'Telugu',
+      dimensions: '22 x 15 x 5 cm',
+      weight: '1.2 kg',
+      binding: 'Premium Leather'
+    },
+    ownerInfo: {
+      name: 'TCL Management',
+      store: 'Telugu Christian Literature Main Store',
+      address: '12-45, Main Road, Kakinada, AP'
+    }
   },
   {
     id: 'bible-2',
@@ -48,9 +60,21 @@ export const MOCK_PRODUCTS = [
     category: 'LITERATURE',
     price: 1200,
     description: 'Perfect for study, featuring Telugu and English KJV side-by-side.',
+    fullDescription: 'Compare the beauty of the Telugu language with the classic English KJV. This parallel Bible is ideal for bilingual study and sermon preparation.',
     imageUrl: 'https://images.unsplash.com/photo-1507434965515-61970f2bd7c6?auto=format&fit=crop&q=80&w=400',
     badge: 'POPULAR',
-    stock: 40
+    stock: 40,
+    specifications: {
+      language: 'Telugu & English',
+      dimensions: '24 x 16 x 6 cm',
+      weight: '1.5 kg',
+      binding: 'Hardbound'
+    },
+    ownerInfo: {
+      name: 'TCL Management',
+      store: 'TCL Publications',
+      location: 'Kakinada, AP'
+    }
   },
   {
     id: 'bible-3',
@@ -58,9 +82,20 @@ export const MOCK_PRODUCTS = [
     category: 'LITERATURE',
     price: 650,
     description: 'Beautifully illustrated Bible stories for children in simple Telugu.',
+    fullDescription: 'Bring the stories of the Bible to life for your children with vibrant illustrations and simplified Telugu text that they can easily understand.',
     imageUrl: 'https://images.unsplash.com/photo-1542603842-7ea11bb0e9b6?auto=format&fit=crop&q=80&w=400',
     badge: 'KIDS',
-    stock: 50
+    stock: 50,
+    specifications: {
+      language: 'Telugu',
+      dimensions: '20 x 20 x 2 cm',
+      weight: '0.6 kg',
+      binding: 'Softcover'
+    },
+    ownerInfo: {
+      name: 'TCL Kids Dept',
+      location: 'Kakinada, AP'
+    }
   },
   {
     id: 'bible-4',
@@ -68,9 +103,20 @@ export const MOCK_PRODUCTS = [
     category: 'LITERATURE',
     price: 850,
     description: 'Modern Telugu translation designed for youth with practical life applications.',
+    fullDescription: 'Engage with God\'s word in a language that speaks to your generation. Includes life-application notes specifically for young Christians.',
     imageUrl: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&q=80&w=400',
     badge: 'NEW',
-    stock: 35
+    stock: 35,
+    specifications: {
+      language: 'Telugu (Modern)',
+      dimensions: '18 x 12 x 3 cm',
+      weight: '0.5 kg',
+      binding: 'Softcover'
+    },
+    ownerInfo: {
+      name: 'TCL Youth Ministry',
+      location: 'Kakinada, AP'
+    }
   },
   {
     id: 'bible-5',
@@ -78,9 +124,16 @@ export const MOCK_PRODUCTS = [
     category: 'LITERATURE',
     price: 950,
     description: 'Easy-to-read large font Telugu Bible, ideal for seniors.',
+    fullDescription: 'Durable and easy to read, this large-print edition is perfect for those who prefer a clearer view of the sacred scriptures.',
     imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=400',
     badge: 'COMFORT',
-    stock: 20
+    stock: 20,
+    specifications: {
+      language: 'Telugu',
+      dimensions: '26 x 18 x 5 cm',
+      weight: '1.4 kg',
+      binding: 'Hardbound'
+    }
   },
   {
     id: 'bible-6',
@@ -90,7 +143,8 @@ export const MOCK_PRODUCTS = [
     description: 'Compact New Testament for carrying God\'s word wherever you go.',
     imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
     badge: 'TRAVEL',
-    stock: 100
+    stock: 100,
+    specifications: { language: 'Telugu', size: 'Pocket' }
   },
   {
     id: 'bible-7',
@@ -100,7 +154,8 @@ export const MOCK_PRODUCTS = [
     description: 'Comprehensive theological commentary in Telugu for serious students of the Word.',
     imageUrl: 'https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=400',
     badge: 'SCHOLARLY',
-    stock: 10
+    stock: 10,
+    specifications: { language: 'Telugu', volumes: 5 }
   },
   {
     id: 'bible-8',
@@ -110,7 +165,8 @@ export const MOCK_PRODUCTS = [
     description: 'A year of inspirational daily readings for women in fluent Telugu.',
     imageUrl: 'https://images.unsplash.com/photo-1491841573634-28140fc7ced7?auto=format&fit=crop&q=80&w=400',
     badge: 'DEVOTIONAL',
-    stock: 65
+    stock: 65,
+    specifications: { language: 'Telugu', pages: 365 }
   },
   {
     id: 'bible-9',
@@ -120,7 +176,8 @@ export const MOCK_PRODUCTS = [
     description: 'Exquisite miniature Telugu Bible with a golden hardback, perfect for gifts.',
     imageUrl: 'https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=400',
     badge: 'GIFT',
-    stock: 15
+    stock: 15,
+    specifications: { language: 'Telugu', size: 'Miniature' }
   },
   {
     id: 'bible-10',
@@ -130,8 +187,12 @@ export const MOCK_PRODUCTS = [
     description: 'Full-color maps and geographical historical context of the Bible in Telugu.',
     imageUrl: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&q=80&w=400',
     badge: 'EDUCATIONAL',
-    stock: 22
+    stock: 22,
+    specifications: { language: 'Telugu', features: 'Full-color' }
   },
+  // All other products will have inherited store defaults in the UI if missing
+  ...MOCK_PRODUCTS.slice(10)
+,
 
   // SACRED FRAMES (FRAMES) - 10 Items
   {
